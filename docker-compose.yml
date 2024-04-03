@@ -1,0 +1,25 @@
+version: '3.4'
+services:
+  restapiso:
+    image: ${DOCKER_REGISTRY-}restapiso
+    build:
+     context: .
+     dockerfile: RestApiSo/Dockerfile
+    ports:
+      - 8080:8080
+      - 8081:8081
+    depends_on:
+      - db
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=db;Database=SOdb;User Id=sa;Password=Abra69Kadabra;MultipleActiveResultSets=true;TrustServerCertificate=true;
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 8082:1433
+    environment:
+      MSSQL_SA_PASSWORD: "Abra69Kadabra"
+      ACCEPT_EULA: Y
+    volumes:
+      - dbdata:/var/opt/mssql
+volumes:
+  dbdata:
